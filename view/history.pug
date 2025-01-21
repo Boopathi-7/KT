@@ -1,0 +1,106 @@
+extends layouts/main.pug
+
+block content
+
+    // Main Content Section
+    div(class="container mt-5")
+      if msg
+        div(class="alert alert-success alert-dismissible fade show" role="alert")
+          strong Success! 
+          | #{msg}
+          button(type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close")
+      
+      h6.text-center  search by Ser_no  details in console please check
+      form(action="/service/history" method="POST" class="p-4 border rounded shadow bg-white")
+        h3.text-center.text-primary.mb-4  Asset History Form
+
+        // Asset Details Section
+        div(class="row mb-3")
+          div(class="col-md-6")
+            label(for="assetId" class="form-label") Asset ID
+            input(type="text" name="assetId" id="assetId" class="form-control" placeholder="Enter Asset ID" required)
+          div(class="col-md-6")
+            label(for="assetCat" class="form-label") Asset Category
+            input(type="text" name="assetCat" id="assetCat" class="form-control" placeholder="Enter Asset Category" required)
+
+        div(class="row mb-3")
+          div(class="col-md-6")
+            label(for="assetBrand" class="form-label") Asset Brand
+            input(type="text" name="assetBrand" id="assetBrand" class="form-control" placeholder="Enter Asset Brand" required)
+          div(class="col-md-6")
+            label(for="assetModel" class="form-label") Asset Model
+            input(type="text" name="assetModel" id="assetModel" class="form-control" placeholder="Enter Asset Model" required)
+
+        div(class="row mb-3")
+          div(class="col-md-6")
+            label(for="assetSer_no" class="form-label") Serial Number
+            input(type="text" name="assetSer_no" id="assetSer_no" class="form-control" placeholder="Enter Serial Number" required)
+          div(class="col-md-6")
+            label(for="assetBranch" class="form-label") Branch
+            input(type="text" name="assetBranch" id="assetBranch" class="form-control" placeholder="Enter Branch" required)
+
+        div.text-center
+          button(type="submit" class="btn btn-primary mt-3 px-5")  Asset History
+      
+    div(class="container mt-5")
+      if msg
+          table.table.table-striped.table-bordered.table-responsive.mt-3 
+              thead.table-dark
+                  tr
+                      th Sno
+                      th ID
+                      th CATEGORY
+                      th BRAND
+                      th MODEL
+                      th BRACH
+                      th SER.NO
+                      th STATUS
+                      th DATE
+              tbody
+                  if assetIssue
+                     each asset,index in assetIssue
+                      tr   
+                          td= index +1
+                          td= asset.assetId
+                          td= asset.assetCat
+                          td= asset.assetBrand
+                          td= asset.assetModel
+                          td= asset.assetBranch
+                          td= asset.assetSer_no 
+                          td= asset.assetAction
+                          td= asset.issueDate
+
+                  if assetReturn
+                     each asset,index in assetReturn
+                      tr   
+                          td= index +1
+                          td= asset.assetId
+                          td= asset.assetCat
+                          td= asset.assetBrand
+                          td= asset.assetModel
+                          td= asset.assetBranch
+                          td= asset.assetSer_no 
+                          td= asset.assetAction
+                          td= asset.issueDate        
+        
+                  if assetScrap
+                     each asset,index in assetScrap
+                      tr   
+                          td= index +1
+                          td= asset.assetId
+                          td= asset.assetCat
+                          td= asset.assetBrand
+                          td= asset.assetModel
+                          td= asset.assetBranch
+                          td= asset.assetSer_no 
+                          td= asset.assetAction
+                          td= asset.issueDate  
+
+
+    
+    script.
+     const data = !{JSON.stringify(data)};    
+    script(src="/js/history.js")    
+    // Scripts
+    script(src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js")
+    script(src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js")

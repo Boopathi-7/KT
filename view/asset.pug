@@ -1,0 +1,183 @@
+extends layouts/main.pug
+
+block content
+    // Main Content Section
+    main(class="container py-5")
+        h1(class="display-5 text-center mb-4 text-primary") Welcome to Asset Master
+        p(class="lead text-center text-secondary") Manage Asset details and other organizational data efficiently.
+        
+    // Display success message for actions
+    if  msg == "assetAdded" || msg == "assetUpdated" || msg == "assetDeleted"
+        div(class="alert alert-success alert-dismissible fade show" role="alert")
+            strong Success!
+            | #{msg}
+            button(type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close")
+    div(class="container d-flex justify-content-center align-items-center vh-100")
+            div(class="form-container bg-white p-4 rounded shadow-lg w-100" style="max-width: 500px;")
+                // Add form sections based on the value of `msg`
+                if msg == "assetAll" || msg == "assetAdded" || msg == "assetUpdated" || msg == "assetDeleted" || msg == "filteredAssets"
+                    h3(class="text-center mb-4") ASSET MASTER
+                    form(action="/asset/submit" method="POST" id="assetForm" )
+                        div(class="mb-3")
+                            label(for="cat" class="form-label") CATEGORY:
+                            select(id="cat" name="cat" class="form-select" required)
+                                option(value="LAPTOP") LAPTOP
+                                option(value="MOBILE") MOBILE
+                                option(value="TWS") TWS
+                        div(class="mb-3")
+                            label(for="brand" class="form-label") BRAND NAME:
+                            select(id="brand" name="brand" class="form-select" required)
+                                option(value="APPLE") APPLE
+                                option(value="SAMSUNG") SAMSUNG
+                                option(value="REDMI") REDMI
+                                option(value="ONEPLUS") ONEPLUS
+                        div(class="mb-3")
+                            label(for="model" class="form-label") MODEL:
+                            input(type="text" id="model" name="model" class="form-control" required)
+                        div(class="mb-3")
+                            label(for="ser_no" class="form-label") SERIAL NO:
+                            input(type="text" id="ser_no" name="ser_no" class="form-control" required)
+                        div(class="mb-3")
+                            label(for="branch" class="form-label") BRANCH:
+                            select(id="branch" name="branch" class="form-select" required)
+                                option(value="SBC") SBC
+                                option(value="RC") RC
+                        div(class="mb-3")
+                            label(for="status" class="form-label") STATUS:
+                            select(id="status" name="status" class="form-select" required)
+                                option(value="NEW") NEW
+                                option(value="SERVICE") SERVICE
+                                option(value="SCRAP") SCRAP
+                        button(type="submit" class="btn btn-primary w-100 mt-3") Submit
+
+                if msg == "assetToEdit"
+                    h3(class="text-center mb-4") Edit Asset
+                    form(action=`/asset/edit/${asset.id}` method="POST" id="editForm" )
+                        div(class="mb-3")
+                            label(for="cat" class="form-label") CATEGORY:
+                            select(id="cat" name="cat" class="form-select" value=`${asset.cat}` required)
+                                option(value="LAPTOP" selected=asset.cat === "LAPTOP" ) LAPTOP
+                                option(value="MOBILE" selected=asset.cat === "MOBILE" ) MOBILE
+                                option(value="TWS" selected=asset.cat === "TWS" ) TWS
+                        div(class="mb-3")
+                            label(for="brand" class="form-label") BRAND NAME:
+                            select(id="brand" name="brand" class="form-select"  valu=`${asset.brand}`  required)
+                                option(value="APPLE"  selected=asset.brand === "APPLE" ) APPLE
+                                option(value="SAMSUNG" selected=asset.brand === "SAMSUNG" ) SAMSUNG
+                                option(value="REDMI" selected=asset.brand === "REDMI" ) REDMI
+                                option(value="ONEPLUS" selected=asset.brand === "ONEPLUS" ) ONEPLUS
+                        div(class="mb-3")
+                            label(for="model" class="form-label") MODEL:
+                            input(type="text" id="model" name="model" class="form-control" value=`${asset.model}` required)
+                        div(class="mb-3")
+                            label(for="ser_no" class="form-label") SERIAL NO:
+                            input(type="text" id="ser_no" name="ser_no" class="form-control" value=`${asset.ser_no}` required)
+                        div(class="mb-3")
+                            label(for="branch" class="form-label") BRANCH:
+                            select(id="branch" name="branch" class="form-select"  required)
+                                option(value="SBC" selected =asset.branch === "SBC" ) SBC
+                                option(value="RC" selected =asset.branch === "RC" ) RC
+                        div(class="mb-3")
+                            label(for="status" class="form-label") STATUS:
+                            select(id="status" name="status" class="form-select"  required)
+                                option(value="NEW" selected =asset.status === "NEW" ) NEW
+                                option(value="SERVICE" selected =asset.status === "SERVICE" ) SERVICE
+                                option(value="SCRAP" selected =asset.status === "SCRAP" ) SCRAP
+                        button(type="submit" class="btn btn-primary w-100 mt-3") Update
+
+                if msg == "assetToDelete"
+                    h3(class="text-center mb-4") Delete Asset
+                    form(action=`/asset/delete/${asset.id}` method="POST" )
+                        div(class="mb-3")
+                            label(for="cat" class="form-label") CATEGORY:
+                            select(id="cat" name="cat" class="form-select"  required)
+                                option(value="LAPTOP" selected=asset.cat === "LAPTOP" ) LAPTOP
+                                option(value="MOBILE" ) MOBILE
+                                option(value="TWS" ) TWS
+                        div(class="mb-3")
+                            label(for="brand" class="form-label") BRAND NAME:
+                            select(id="brand" name="brand" class="form-select"    required)
+                                option(value="APPLE" selected=asset.brand === "APPLE" ) APPLE
+                                option(value="SAMSUNG" selected=asset.brand === "SAMSUNG" ) SAMSUNG
+                                option(value="REDMI"  selected=asset.brand === "REDMI" ) REDMI
+                                option(value="ONEPLUS" selected=asset.brand === "ONEPLUS" ) ONEPLUS
+                        div(class="mb-3")
+                            label(for="model" class="form-label") MODEL:
+                            input(type="text" id="model" name="model" class="form-control" value=`${asset.model}` required)
+                        div(class="mb-3")
+                            label(for="ser_no" class="form-label") SERIAL NO:
+                            input(type="text" id="ser_no" name="ser_no" class="form-control" value=`${asset.ser_no}` required)
+                        div(class="mb-3")
+                            label(for="branch" class="form-label") BRANCH:
+                            select(id="branch" name="branch" class="form-select"  required)
+                                option(value="SBC" selected=asset.branch === "SBC" ) SBC
+                                option(value="RC" selecgted=asset.branch === "RC" ) RC
+                        div(class="mb-3")
+                            label(for="status" class="form-label") STATUS:
+                            select(id="status" name="status" class="form-select"  required)
+                                option(value="NEW" selected=asset.status === "NEW" ) NEW
+                                option(value="SERVICE"  selected=asset.status === "SERVICE" ) SERVICE
+                                option(value="SCRAP" selected=asset.status === "SCRAP" ) SCRAP
+    // Filter Form
+    form(action="/asset/filter" method="GET" class="mb-3 row g-3 align-items-center")
+        p(class="lead text-center text-secondary") Filter
+        div(class="row")
+            div(class="col-md-4")
+                label(for="cat" class="form-label") CATEGORY:
+                select(id="cat" name="cat" class="form-select" )
+                    option(value="") Select Category
+                    option(value="LAPTOP") LAPTOP
+                    option(value="MOBILE") MOBILE
+                    option(value="TWS") TWS
+            div(class="col-md-4")
+                label(for="brand" class="form-label") BRAND NAME:
+                select(id="brand" name="brand" class="form-select" )
+                    option(value="") Select Brand
+                    option(value="APPLE") APPLE
+                    option(value="SAMSUNG") SAMSUNG
+                    option(value="REDMI") REDMI
+                    option(value="ONEPLUS") ONEPLUS
+            div(class="col-md-4")
+                label(for="model" class="form-label") MODEL:
+                input(type="text" id="model" name="model" class="form-control" placeholder="Enter model name" )
+        div(class="col-auto mt-3")
+            button(type="submit" class="btn btn-primary") Search
+                    
+            
+
+    // Asset Table Section
+    div(class="container mt-5")
+            h3.text-center Asset Data
+            if assets && assets.length
+                table(class="table table-striped table-bordered table-responsive  mt-3")
+                    thead.table-dark
+                        tr
+                            th NO
+                            th ID
+                            th CATEGORY
+                            th BRAND
+                            th MODEL
+                            th SERIAL NO
+                            th BRANCH
+                            th STATUS
+                            th ACTIONS
+                    tbody
+                        each asset,index in assets
+                            tr
+                                td= index +1
+                                td= asset.id
+                                td= asset.cat
+                                td= asset.brand
+                                td= asset.model
+                                td= asset.ser_no
+                                td= asset.branch
+                                td= asset.status
+                                td
+                                    form(action=`/asset/edit/${asset.id}` method="GET" class="d-inline")
+                                        button(type="submit" class="btn btn-primary btn-sm") Edit
+                                    form(action=`/asset/delete/${asset.id}` method="POST" class="d-inline")
+                                        button(type="submit" class="btn btn-danger btn-sm") Delete
+            else
+                p.text-center.mt-3 No assets found.
+
+   

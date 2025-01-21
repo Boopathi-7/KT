@@ -1,0 +1,94 @@
+extends layouts/main.pug
+
+block content
+    // Main Content Section
+    main(class="container py-5")
+        h1(class="display-5 text-center mb-4 text-primary") Welcome to Employee Master
+        p(class="lead text-center text-secondary") Manage employees' details and other organizational data efficiently.
+        
+    // Display success message for actions
+    if msg == "employeeAdded" || msg == "employeeUpdated" || msg == "employeeDeleted"
+        div(class="alert alert-success alert-dismissible fade show" role="alert")
+            strong Success!
+            | #{msg}
+            button(type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close")
+    
+    // Container for form and employee table
+    div.container.d-flex.justify-content-center.align-items-center.vh-100
+        div.form-container.bg-white.p-4.rounded.shadow-lg.w-100(style="max-width: 900px;")
+            if msg == "employeeAll" || msg == "employeeAdded" || msg == "employeeUpdated" || msg == "employeeDeleted" || msg == "employeeStatus"
+                h3.text-center.mb-4 EMPLOYEE MASTER
+                form(action="/employee/submit" method="POST" onsubmit="return validateForm()")
+                    div.row.g-3
+                        div.col-md-6
+                            label(for="name" class="form-label") NAME:
+                            input(type="text" id="name" name="name" class="form-control" required)
+                        div.col-md-6
+                            label(for="number" class="form-label") NUMBER:
+                            input(type="number" id="number" name="number" class="form-control" required)
+                        div.col-md-6
+                            label(for="age" class="form-label") AGE:
+                            input(type="number" id="age" name="age" class="form-control" required)
+                        div.col-md-6
+                            label(for="mail" class="form-label") MAIL:
+                            input(type="email" id="mail" name="mail" class="form-control" required)
+                        div.col-md-12
+                            label(for="address" class="form-label") ADDRESS:
+                            input(type="text" id="address" name="address" class="form-control" required)
+                        div.col-md-6
+                            label(for="branch" class="form-label") BRANCH:
+                            select(id="branch" name="branch" class="form-select" required)
+                                option(value="SBC") SBC
+                                option(value="RC") RC
+                        div.col-md-6
+                            label(for="active" class="form-label") STATUS:
+                            select(id="active" name="active" class="form-select" required)
+                                option(value="ACTIVE") ACTIVE
+                                option(value="INACTIVE") INACTIVE
+                    button(type="submit" class="btn btn-primary w-100 mt-3") Submit
+
+    // Search and Filter Section
+    div.container.mt-5
+        form(action="/employee/filter" method="GET" class="mb-3 row g-3 align-items-center")
+            div.col-md-4
+                label(for="status" class="form-label") Filter by Status:
+                select(name="status" id="status" class="form-select")
+                    option(value="ACTIVE") Active
+                    option(value="INACTIVE") Inactive
+            div.col-md-4
+                button(type="submit" class="btn btn-primary") Search
+
+    // Table for Employee Data
+    if employees && employees.length
+        h3.text-center.mt-4.mb-4 Fetch Employees Data
+        div.table-responsive
+            table.table.table-striped.table-bordered.table-hover
+                thead(class="table-dark")
+                    tr
+                        th(scope="col") Sno
+                        th(scope="col") Name
+                        th(scope="col") Age
+                        th(scope="col") Number
+                        th(scope="col") Mail
+                        th(scope="col") Address
+                        th(scope="col") Branch
+                        th(scope="col") Active
+                        th(scope="col") Actions
+                tbody
+                    each employee, index in employees
+                        tr
+                            td= index + 1
+                            td= employee.name
+                            td= employee.age
+                            td= employee.number
+                            td= employee.mail
+                            td= employee.address
+                            td= employee.branch
+                            td= employee.active  
+                            td
+                                form(action=`/employee/edit/${employee.id}` method="GET" class="d-inline")
+                                    button(type="submit" class="btn btn-primary btn-sm") Edit
+                                form(action=`/employee/delete/${employee.id}` method="GET" class="d-inline")
+                                    button(type="submit" class="btn btn-danger btn-sm") Delete
+    else
+        p.text-center.mt-3.text-danger No employees found.

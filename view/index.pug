@@ -1,0 +1,41 @@
+extends layouts/main.pug
+
+block content
+    // Asset Card Section
+    div.container.mt-5
+        h3.text-center Asset Data
+        if newUser.name
+            h5 welcome #{newUser.name}
+            h5  #{newUser.password }
+            h5  #{newUser.mail }
+            h5 #{newUser.number}
+        if assets && assets.length
+            div.row.row-cols-1.row-cols-md-3.g-4.mt-3
+                each asset in assets
+                    div.col
+                        div.card.h-100
+                            div.card-body
+                                h5.card-title Asset ID: #{asset.id}
+                                p.card-text
+                                    strong Category: 
+                                    span #{asset.cat}
+                                p.card-text
+                                    strong Brand: 
+                                    span #{asset.brand}
+                                p.card-text
+                                    strong Model: 
+                                    span #{asset.model}
+                                p.card-text
+                                    strong Serial No: 
+                                    span #{asset.ser_no}
+                                p.card-text
+                                    strong Branch: 
+                                    span #{asset.branch}
+                                p.card-text
+                                    strong Status: 
+                                    span #{asset.status}
+                            div.card-footer.text-center
+                                form(action=`/user/buy/${asset.id}` method="POST" class="d-inline")
+                                    button(type="submit" class="btn btn-success btn-sm") Buy
+        else
+            p.text-center.mt-3 No assets found.
