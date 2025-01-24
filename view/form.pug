@@ -16,40 +16,105 @@ block content
     // Container for form and employee table
     div.container.d-flex.justify-content-center.align-items-center.vh-100
         div.form-container.bg-white.p-4.rounded.shadow-lg.w-100(style="max-width: 900px;")
-            if msg == "employeeAll" || msg == "employeeAdded" || msg == "employeeUpdated" || msg == "employeeDeleted" || msg == "employeeStatus"
-                h3.text-center.mb-4 EMPLOYEE MASTER
+            if msg == "employeeAll" || msg == "employeeAdded" || msg == "employeeUpdated" ||   msg == "employeeDeleted" || msg == "employeeStatus"
+                h3.text-center.mb-4 EMPLOYEE MASTER 
+                if employee
                 form(action="/employee/submit" method="POST" onsubmit="return validateForm()")
                     div.row.g-3
                         div.col-md-6
                             label(for="name" class="form-label") NAME:
-                            input(type="text" id="name" name="name" class="form-control" required)
+                            input(type="text" id="name" name="name"  class="form-control" required)
                         div.col-md-6
                             label(for="number" class="form-label") NUMBER:
-                            input(type="number" id="number" name="number" class="form-control" required)
+                            input(type="number" id="number" name="number"  class="form-control" required)
                         div.col-md-6
                             label(for="age" class="form-label") AGE:
-                            input(type="number" id="age" name="age" class="form-control" required)
+                            input(type="number" id="age" name="age" class="form-control"  required)
                         div.col-md-6
                             label(for="mail" class="form-label") MAIL:
-                            input(type="email" id="mail" name="mail" class="form-control" required)
+                            input(type="email" id="mail" name="mail" class="form-control"  required)
                         div.col-md-12
                             label(for="address" class="form-label") ADDRESS:
-                            input(type="text" id="address" name="address" class="form-control" required)
+                            input(type="text" id="address" name="address"  class="form-control" required)
                         div.col-md-6
                             label(for="branch" class="form-label") BRANCH:
                             select(id="branch" name="branch" class="form-select" required)
-                                option(value="SBC") SBC
-                                option(value="RC") RC
+                                option(value="SBC" ) SBC
+                                option(value="RC"  ) RC
                         div.col-md-6
                             label(for="active" class="form-label") STATUS:
                             select(id="active" name="active" class="form-select" required)
-                                option(value="ACTIVE") ACTIVE
-                                option(value="INACTIVE") INACTIVE
+                                option(value="ACTIVE" ) ACTIVE
+                                option(value="INACTIVE" ) INACTIVE
                     button(type="submit" class="btn btn-primary w-100 mt-3") Submit
 
+            if  msg == "employeeToEdit" 
+                h3.text-center.mb-4 EMPLOYEE MASTER 
+                if employee
+                form(action=`/employee/edit/${employee.id}` method="POST" onsubmit="return validateForm()")
+                    div.row.g-3
+                        div.col-md-6
+                            label(for="name" class="form-label") NAME:
+                            input(type="text" id="name" name="name" value=`${employee.name}` class="form-control" required)
+                        div.col-md-6
+                            label(for="number" class="form-label") NUMBER:
+                            input(type="number" id="number" name="number" value=`${employee.number}` class="form-control" required)
+                        div.col-md-6
+                            label(for="age" class="form-label") AGE:
+                            input(type="number" id="age" name="age" class="form-control" value=`${employee.age}` required)
+                        div.col-md-6
+                            label(for="mail" class="form-label") MAIL:
+                            input(type="email" id="mail" name="mail" class="form-control" value=`${employee.mail}` required)
+                        div.col-md-12
+                            label(for="address" class="form-label") ADDRESS:
+                            input(type="text" id="address" name="address" value=`${employee.address}` class="form-control" required)
+                        div.col-md-6
+                            label(for="branch" class="form-label") BRANCH:
+                            select(id="branch" name="branch" class="form-select" required)
+                                option(value="SBC" selected=employee.branch === "SBC") SBC
+                                option(value="RC"  selected=employee.branch === "RC") RC
+                        div.col-md-6
+                            label(for="active" class="form-label") STATUS:
+                            select(id="active" name="active" class="form-select" required)
+                                option(value="ACTIVE" selected=employee.active === "ACTIVE") ACTIVE
+                                option(value="INACTIVE" selected=employee.active === "INACTIVE") INACTIVE
+                    button(type="submit" class="btn btn-primary w-100 mt-3") Update
+
+            if  msg == "employeeToDelete" 
+                h3.text-center.mb-4 EMPLOYEE MASTER 
+                if employee
+                form(action=`/employee/delete/${employee.id}` method="POST" onsubmit="return validateForm()")
+                    div.row.g-3
+                        div.col-md-6
+                            label(for="name" class="form-label") NAME:
+                            input(type="text" id="name" name="name" value=`${employee.name}` class="form-control" required)
+                        div.col-md-6
+                            label(for="number" class="form-label") NUMBER:
+                            input(type="number" id="number" name="number" value=`${employee.number}` class="form-control" required)
+                        div.col-md-6
+                            label(for="age" class="form-label") AGE:
+                            input(type="number" id="age" name="age" class="form-control" value=`${employee.age}` required)
+                        div.col-md-6
+                            label(for="mail" class="form-label") MAIL:
+                            input(type="email" id="mail" name="mail" class="form-control" value=`${employee.mail}` required)
+                        div.col-md-12
+                            label(for="address" class="form-label") ADDRESS:
+                            input(type="text" id="address" name="address" value=`${employee.address}` class="form-control" required)
+                        div.col-md-6
+                            label(for="branch" class="form-label") BRANCH:
+                            select(id="branch" name="branch" class="form-select" required)
+                                option(value="SBC" selected=employee.branch === "SBC") SBC
+                                option(value="RC"  selected=employee.branch === "RC") RC
+                        div.col-md-6
+                            label(for="active" class="form-label") STATUS:
+                            select(id="active" name="active" class="form-select" required)
+                                option(value="ACTIVE" selected=employee.status === "ACTIVE") ACTIVE
+                                option(value="INACTIVE" selected=employee.status === "INACTIVE") INACTIVE
+                    button(type="submit" class="btn btn-danger w-100 mt-3") Delete                
+
     // Search and Filter Section
-    div.container.mt-5
-        form(action="/employee/filter" method="GET" class="mb-3 row g-3 align-items-center")
+    if employees && employees.length
+        form(action=`/employee/filter` method="GET" class="mb-3 row g-3 align-items-center")
             div.col-md-4
                 label(for="status" class="form-label") Filter by Status:
                 select(name="status" id="status" class="form-select")

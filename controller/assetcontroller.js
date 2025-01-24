@@ -107,6 +107,7 @@ const addAsset =  async(req,res)=>{
                 acc[branch]=[];
             }
             acc[branch].push(asset);
+            console.log(acc);
             return acc
         },{})
         res.status(200).render('stockView',{msg:"assetAll",groupAssets});  // Render the Pug form template (form.pug)

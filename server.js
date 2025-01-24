@@ -37,19 +37,19 @@ app.get('/', getEmployees, (req, res) => res.render('form', ));
 app.post('/employee/submit', addEmployee);
 // app.get('/employee/filter/:status',getEmpByStatus)
 app.get(`/employee/filter/`,filteredEmployees)
-app.get('/employee/edit/:id', getEmployee);
-app.post('/employee/edit/:id', editEmployee);
-app.get('/employee/delete/:id', getEmployeeForDelete);
-app.post('/employee/delete/:id', deleteEmployee);
+app.get(`/employee/edit/:id`, getEmployee);
+app.post(`/employee/edit/:id`, editEmployee);
+app.get(`/employee/delete/:id`, getEmployeeForDelete);
+app.post(`/employee/delete/:id`, deleteEmployee);
 
 // Asset routes
 app.get('/asset', getAssets);
 app.post('/asset/submit', addAsset);
 app.get(`/asset/filter`,filteredAssets)
-app.get('/asset/edit/:id', getAsset);
-app.post('/asset/edit/:id', editAsset);
-app.get('/asset/delete/:id', getAssetForDelete);
-app.post('/asset/delete/:id', deleteAsset);
+app.get(`/asset/edit/:id`, getAsset);
+app.post(`/asset/edit/:id`, editAsset);
+app.get(`/asset/delete/:id`, getAssetForDelete);
+app.post(`/asset/delete/:id`, deleteAsset);
 
 // Stock view route
 app.get('/stockview', getAssetsForView);
