@@ -42,6 +42,7 @@ block content
                             select(id="branch" name="branch" class="form-select" required)
                                 option(value="SBC") SBC
                                 option(value="RC") RC
+                                option(value="VOC") VOC 
                         div(class="mb-3")
                             label(for="status" class="form-label") STATUS:
                             select(id="status" name="status" class="form-select" required)
@@ -77,6 +78,7 @@ block content
                             select(id="branch" name="branch" class="form-select" value=`${asset.branch}` required)
                                 option(value="SBC" selected =asset.branch === "SBC" ) SBC
                                 option(value="RC" selected =asset.branch === "RC" ) RC
+                                option(value="VOC" selected =asset.branch === "VOC" ) VOC 
                         div(class="mb-3")
                             label(for="status" class="form-label") STATUS:
                             select(id="status" name="status" class="form-select" value=`${asset.status}`  required)
@@ -112,6 +114,7 @@ block content
                             select(id="branch" name="branch" class="form-select" value=`${asset.branch}` required)
                                 option(value="SBC" selected=asset.branch === "SBC" ) SBC
                                 option(value="RC" selecgted=asset.branch === "RC" ) RC
+                                option(value="VOC" selected=asset.branch === "VOC" ) VOC 
                         div(class="mb-3")
                             label(for="status" class="form-label") STATUS:
                             select(id="status" name="status" class="form-select"  value=`${asset.status}` required)

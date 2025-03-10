@@ -15,7 +15,8 @@ const getAssetsForIndex = async(req, res) => {
 }
 const getAssets = async(req, res) => {
     try{
-        const assets  = await assetmasters.findAll({where: {status: ['NEW', 'SERVICE']}});
+        const assets  = await assetmasters.findAll({where :
+            { [Op.or] : [{status:'NEW'},{status:'SERVICE'}]}});
 
         console.log(assets);
         if(!assets){
@@ -96,7 +97,8 @@ const addAsset =  async(req,res)=>{
    const getAssetsForView = async(req,res)=>{
      try{
         const assets = await assetmasters.findAll();
-        console.log(assets);
+        const assets1 = await assetmasters.findAll({where : { branch :'VOC'}});
+        console.log(assets1);
         if(!assets ){
             res.status(404).send("Data Not Found")
         }
@@ -124,18 +126,18 @@ const addAsset =  async(req,res)=>{
         console.log("Filter Parameters:", { cat, brand, model });
 
         // Build the dynamic where condition
-        const whereCondition = {};
-        if (cat) whereCondition.cat = cat;
-        if (brand) whereCondition.brand = brand;
-        if (model) whereCondition.model = model;
+        // const whereCondition = {};
+        // if (cat) whereCondition.cat = cat;
+        // if (brand) whereCondition.brand = brand;
+        // if (model) whereCondition.model = model;
 
         // Fetch assets based on the dynamic where condition
         const assets = await assetmasters.findAll({
             where: {
                 [Op.and]: [
-                    ...(cat ? [{ cat }] : []),
-                    ...(brand ? [{ brand }] : []),
-                    ...(model ? [{ model }] : [])
+                    (cat ? [{ cat }] : []),
+                    (brand ? [{ brand }] : []),
+                    (model ? [{ model }] : [])
                 ]
             }
         });
